@@ -2,16 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.dvpires.guideapp">
 
-
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
-
     <uses-feature android:name="android.hardware.camera2.full" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
-
 
     <application
         android:allowBackup="true"
@@ -34,16 +31,16 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".slide.SlideViewActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".save_data.SharedPreferenceActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".camera.CameraActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".camera.camera.GuideCameraActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -57,7 +54,7 @@
 
         <activity
             android:name=".camera.camera2.GuideCamera2Activity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
