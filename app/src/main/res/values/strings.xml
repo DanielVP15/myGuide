@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name"><b>GuideApp</b></string>
+    <string name="list_view_example"><b>List View Example</b></string>
+    <string name="string_shared_preference">Salvar String:</string>
+    <string name="easy_capturar_text">Capturar usando camera padrão do celular</string>
+    <string name="capturar_text">Capturar usando objeto Camera</string>
+    <string name="capturar2_text">Capturar usando objeto Camera2</string>
+    <string name="not_available_text">(Não é compatível com sua versão do android)</string>
+
+
+    <!--Button-->
+    <string name="salvar_button">Salvar</string>
+    <string name="capturar_button">Capturar</string>
+
+
+    <!--SharedPreferences-->
+    <string name="preference_file_key">com.example.dvpires.guideapp.PREFERENCE_FILE_KEY</string>
+
+</resources>
