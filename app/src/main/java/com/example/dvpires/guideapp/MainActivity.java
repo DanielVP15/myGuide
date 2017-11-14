@@ -25,9 +25,10 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
 
-    private List<String> solvedList = new ArrayList<String>();
+    private List<String> solvedList = new ArrayList<>();
     private ListView problemList;
     private TextView problemText;
+    private int numMessages = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,14 +58,37 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     //Notification Example
     public void notification() {
+
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         // The id of the channel.
+        int notifyID = 1;
         String id = "my_channel_01";
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(this)
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.notification_icon)
-                        .setContentTitle("My notification")
-                        .setContentText("Hello World!");
+                        .setContentTitle("New Message")
+                        .setContentText("You've received new messages.");
+        mBuilder.setChannel(id);
+        mBuilder.setAutoCancel(true);
         // Creates an explicit intent for an Activity in your app
+        NotificationCompat.InboxStyle inboxStyle =
+                new NotificationCompat.InboxStyle();
+        String[] events = new String[6];
+        // Sets a title for the Inbox in expanded layout
+        inboxStyle.setBigContentTitle("Event tracker details:");
+        // Moves events into the expanded layout
+        for (int i = 0; i < events.length; i++) {
+            inboxStyle.addLine(events[i]);
+        }
+        // Moves the expanded layout object into the notification object.
+        mBuilder.setStyle(inboxStyle);
+
+        // Start of a loop that processes data and then notifies the user
+        mBuilder.setContentText("You've received new messages.")
+                .setNumber(++numMessages);
+        // Because the ID remains unchanged, the existing notification is
+        // updated.
+
         Intent resultIntent = new Intent(this, ShowActivity.class);
         resultIntent.putExtra("dados", "It's Working!!!");
         // The stack builder object will contain an artificial back stack for the
@@ -82,8 +106,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         PendingIntent.FLAG_UPDATE_CURRENT
                 );
         mBuilder.setContentIntent(resultPendingIntent);
-        NotificationManager mNotificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         // mNotificationId is a unique integer your app uses to identify the
         // notification. For example, to cancel the notification, you can pass its ID
@@ -122,5 +144,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
 
     }
+
 
 }
