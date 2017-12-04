@@ -1,20 +1,22 @@
 package com.example.dvpires.guideapp.camera;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.net.Uri;
-import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.content.FileProvider;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 
 import com.example.dvpires.guideapp.R;
 import com.example.dvpires.guideapp.camera.camera.GuideCameraActivity;
@@ -23,14 +25,17 @@ import com.example.dvpires.guideapp.camera.camera2.GuideCamera2Activity;
 
 public class CameraActivity extends AppCompatActivity implements View.OnClickListener {
 
-    //easy way
+
     ImageView mImageView;
+    TextView notAvailableText;
     Button mCaptureButton;
     Button mEasyCameraButton;
     Button mCapture2Button;
     Button rejectCapture2Button;
-    TextView notAvailableText;
+
+
     static final int REQUEST_IMAGE_CAPTURE = 1;
+    static final int MY_PERMISSIONS_REQUEST = 2;
 
 
     @Override
@@ -42,7 +47,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
     private void init() {
         mImageView = (ImageView) findViewById(R.id.image_camera_view);
-        notAvailableText= (TextView) findViewById(R.id.not_available);
+        notAvailableText = (TextView) findViewById(R.id.not_available);
         mEasyCameraButton = (Button) findViewById(R.id.easy_camera_start_button);
         mCaptureButton = (Button) findViewById(R.id.camera_start_button);
         mCapture2Button = (Button) findViewById(R.id.camera2_start_button);
@@ -59,8 +64,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             rejectCapture2Button.setVisibility(View.GONE);
             mCapture2Button.setOnClickListener(this);
         }
-
-
+        checkPermission();
     }
 
     private boolean checkSdkVersion() {
@@ -130,5 +134,60 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+    private void checkPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.CAMERA) || ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+                //} else {
+
+                // No explanation needed, we can request the permission.
+
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        MY_PERMISSIONS_REQUEST);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+
+
+            }
+
+        }
+
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+
+
+        }
+    }
 
 }

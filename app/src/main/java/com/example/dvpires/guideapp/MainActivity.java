@@ -24,12 +24,12 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-
+    //Variaveis
     private List<String> solvedList = new ArrayList<>();
     private ListView problemList;
-    private TextView problemText;
     private int numMessages = 0;
 
+    //Create
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,17 +38,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         init();
     }
 
+    //Preencher a lista com os elementos
     public void fillList() {
         solvedList.add("Slide example");
         solvedList.add("Camera example");
         solvedList.add("SharedPreference example");
         solvedList.add("Notification example");
+        solvedList.add("Volley Service example");
         solvedList.add("Still in progess");
 
     }
 
+    //Iniciar views
     public void init() {
-        problemText = (TextView) findViewById(R.id.problem_text);
         problemList = (ListView) findViewById(R.id.problem_list);
         problemList.setOnItemClickListener(this);
         CustomCheckListAdapter customAdapter = new CustomCheckListAdapter(
@@ -56,33 +58,22 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         problemList.setAdapter((customAdapter));
     }
 
-    //Notification Example
+    //Exemplo de notificação simples
     public void notification() {
-
+        //Criação do Manager
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        // The id of the channel.
+        // informações do canal.
         int notifyID = 1;
         String id = "my_channel_01";
+        //Criando a notificação
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.notification_icon)
-                        .setContentTitle("New Message")
-                        .setContentText("You've received new messages.");
-        mBuilder.setChannel(id);
+                .setSmallIcon(R.drawable.notification_icon)
+                .setContentTitle("New Message");
+        //botando a notificação no canal
+        mBuilder.setChannelId(id);
+        //notificação some quando for clicada
         mBuilder.setAutoCancel(true);
-        // Creates an explicit intent for an Activity in your app
-        NotificationCompat.InboxStyle inboxStyle =
-                new NotificationCompat.InboxStyle();
-        String[] events = new String[6];
-        // Sets a title for the Inbox in expanded layout
-        inboxStyle.setBigContentTitle("Event tracker details:");
-        // Moves events into the expanded layout
-        for (int i = 0; i < events.length; i++) {
-            inboxStyle.addLine(events[i]);
-        }
-        // Moves the expanded layout object into the notification object.
-        mBuilder.setStyle(inboxStyle);
-
         // Start of a loop that processes data and then notifies the user
         mBuilder.setContentText("You've received new messages.")
                 .setNumber(++numMessages);
@@ -97,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         // your app to the Home screen.
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         // Adds the back stack for the Intent (but not the Intent itself)
-        stackBuilder.addParentStack(ShowActivity.class);
+        stackBuilder.addParentStack(MainActivity.class);
         // Adds the Intent that starts the Activity to the top of the stack
         stackBuilder.addNextIntent(resultIntent);
         PendingIntent resultPendingIntent =
@@ -135,6 +126,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         break;
                     case "Notification example":
                         notification();
+                        break;
+                    case "Volley Service example":
+                        Intent it5 = new Intent(this, ServiceActivity.class);
+                        startActivity(it5);
                         break;
                     default:
                         Intent it = new Intent(this, ShowActivity.class);
